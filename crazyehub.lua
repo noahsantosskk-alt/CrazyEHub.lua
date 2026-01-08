@@ -1,11 +1,11 @@
 -- CrazyE Hub - GitHub Hosted Version
--- URL: https://raw.githubusercontent.com/SEU_USUARIO/CrazyEHub-Scripts/main/CrazyEHub.lua
+-- URL: https://raw.githubusercontent.com/nonhantossik-alt/CrazyHub/main/CrazyHub.lua
 
-if _G.CrazyEHubLoaded then
-    return "⚠️ CrazyE Hub já está carregado!"
+if _G.CrazyHubLoaded then
+    return "⚠️ Crazy Hub já está carregado!"
 end
 
-_G.CrazyEHubLoaded = true
+_G.CrazyHubLoaded = true
 
 -- Serviços
 local Players = game:GetService("Players")
@@ -18,6 +18,8 @@ local CoreGui = game:GetService("CoreGui")
 -- Variáveis
 local LocalPlayer = Players.LocalPlayer
 local Camera = Workspace.CurrentCamera
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
 
 -- Configurações
 local Settings = {
@@ -32,34 +34,76 @@ local Settings = {
     FlySpeed = 50
 }
 
--- Cores
+-- Cores (Preto e Branco)
 local Colors = {
     Background = Color3.fromRGB(10, 10, 15),
     Primary = Color3.fromRGB(20, 20, 25),
     Secondary = Color3.fromRGB(30, 30, 35),
     Accent = Color3.fromRGB(255, 255, 255),
-    Text = Color3.fromRGB(255, 255, 255)
+    Text = Color3.fromRGB(255, 255, 255),
+    SubText = Color3.fromRGB(180, 180, 180),
+    Button = Color3.fromRGB(35, 35, 40),
+    ButtonHover = Color3.fromRGB(45, 45, 50),
+    Circle = Color3.fromRGB(255, 255, 255)
 }
 
 -- Criar Interface
 local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "CrazyHubUI"
 ScreenGui.Parent = CoreGui
-ScreenGui.Name = "CrazyEHubUI"
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
+-- Frame Principal
 local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
 MainFrame.Position = UDim2.new(0.3, 0, 0.25, 0)
 MainFrame.Size = UDim2.new(0, 360, 0, 450)
 MainFrame.BackgroundColor3 = Colors.Background
 MainFrame.BorderSizePixel = 0
 
--- Arrastável
+-- Bordas arredondadas
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 10)
+UICorner.Parent = MainFrame
+
+-- Sombra
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Parent = MainFrame
+UIStroke.Color = Colors.Secondary
+UIStroke.Thickness = 2
+
+-- Título (Arrastável)
 local TitleBar = Instance.new("TextButton")
+TitleBar.Name = "TitleBar"
 TitleBar.Parent = MainFrame
 TitleBar.Size = UDim2.new(1, 0, 0, 35)
 TitleBar.BackgroundColor3 = Colors.Primary
 TitleBar.Text = ""
 TitleBar.AutoButtonColor = false
+
+local TitleCorner = Instance.new("UICorner")
+TitleCorner.CornerRadius = UDim.new(0, 10)
+TitleCorner.Parent = TitleBar
+
+-- Título
+local Title = Instance.new("TextLabel")
+Title.Parent = TitleBar
+Title.Size = UDim2.new(1, 0, 1, 0)
+Title.BackgroundTransparency = 1
+Title.Text = "🔥 CRAZY HUB v1.0 🔥"
+Title.TextColor3 = Colors.Text
+Title.TextSize = 18
+Title.Font = Enum.Font.GothamBold
+
+-- Área de conteúdo
+local ContentFrame = Instance.new("ScrollingFrame")
+ContentFrame.Parent = MainFrame
+ContentFrame.Position = UDim2.new(0, 10, 0, 50)
+ContentFrame.Size = UDim2.new(1, -20, 1, -60)
+ContentFrame.BackgroundTransparency = 1
+ContentFrame.ScrollBarThickness = 4
+ContentFrame.CanvasSize = UDim2.new(0, 0, 0, 600)
 
 -- Sistema de arrastar
 local dragging = false
@@ -91,26 +135,7 @@ UserInputService.InputEnded:Connect(function(input)
     end
 end)
 
--- Título
-local Title = Instance.new("TextLabel")
-Title.Parent = TitleBar
-Title.Size = UDim2.new(1, 0, 1, 0)
-Title.BackgroundTransparency = 1
-Title.Text = "🔥 CRAZYE HUB 🔥"
-Title.TextColor3 = Colors.Text
-Title.TextSize = 18
-Title.Font = Enum.Font.GothamBold
-
--- Área de botões
-local ContentFrame = Instance.new("ScrollingFrame")
-ContentFrame.Parent = MainFrame
-ContentFrame.Position = UDim2.new(0, 10, 0, 50)
-ContentFrame.Size = UDim2.new(1, -20, 1, -60)
-ContentFrame.BackgroundTransparency = 1
-ContentFrame.ScrollBarThickness = 4
-ContentFrame.CanvasSize = UDim2.new(0, 0, 0, 500)
-
--- Funções das features
+-- Funções principais
 local function ToggleAimbot()
     Settings.AimEnabled = not Settings.AimEnabled
     return Settings.AimEnabled
@@ -118,25 +143,6 @@ end
 
 local function ToggleESP()
     Settings.ESPEnabled = not Settings.ESPEnabled
-    if Settings.ESPEnabled then
-        for _, player in pairs(Players:GetPlayers()) do
-            if player ~= LocalPlayer and player.Character then
-                local highlight = Instance.new("Highlight")
-                highlight.Parent = player.Character
-                highlight.FillColor = Color3.fromRGB(255, 255, 255)
-                highlight.FillTransparency = 0.8
-            end
-        end
-    else
-        for _, player in pairs(Players:GetPlayers()) do
-            if player.Character then
-                local highlight = player.Character:FindFirstChild("Highlight")
-                if highlight then
-                    highlight:Destroy()
-                end
-            end
-        end
-    end
     return Settings.ESPEnabled
 end
 
@@ -147,33 +153,6 @@ end
 
 local function ToggleFly()
     Settings.FlyEnabled = not Settings.FlyEnabled
-    if Settings.FlyEnabled then
-        local character = LocalPlayer.Character
-        if character then
-            local hrp = character:FindFirstChild("HumanoidRootPart")
-            if hrp then
-                local bv = Instance.new("BodyVelocity")
-                bv.Velocity = Vector3.new(0, 0, 0)
-                bv.MaxForce = Vector3.new(10000, 10000, 10000)
-                bv.Parent = hrp
-                
-                Workspace.Gravity = 0
-            end
-        end
-    else
-        local character = LocalPlayer.Character
-        if character then
-            local hrp = character:FindFirstChild("HumanoidRootPart")
-            if hrp then
-                for _, v in pairs(hrp:GetChildren()) do
-                    if v:IsA("BodyVelocity") then
-                        v:Destroy()
-                    end
-                end
-            end
-        end
-        Workspace.Gravity = 196.2
-    end
     return Settings.FlyEnabled
 end
 
@@ -195,6 +174,20 @@ for i, btn in pairs(buttons) do
     button.Text = btn[1] .. ": OFF"
     button.Font = Enum.Font.Gotham
     button.TextSize = 14
+    button.AutoButtonColor = false
+    
+    -- Efeito hover
+    button.MouseEnter:Connect(function()
+        TweenService:Create(button, TweenInfo.new(0.15), {
+            BackgroundColor3 = Colors.ButtonHover
+        }):Play()
+    end)
+    
+    button.MouseLeave:Connect(function()
+        TweenService:Create(button, TweenInfo.new(0.15), {
+            BackgroundColor3 = Colors.Button
+        }):Play()
+    end)
     
     button.MouseButton1Click:Connect(function()
         local enabled = btn[2]()
@@ -209,23 +202,36 @@ UserInputService.InputBegan:Connect(function(input)
     end
 end)
 
--- Noclip loop
+-- Loop principal
 RunService.Stepped:Connect(function()
-    if Settings.NoclipEnabled then
-        local character = LocalPlayer.Character
-        if character then
-            for _, part in pairs(character:GetDescendants()) do
-                if part:IsA("BasePart") then
-                    part.CanCollide = false
-                end
+    -- Noclip
+    if Settings.NoclipEnabled and Character then
+        for _, part in pairs(Character:GetDescendants()) do
+            if part:IsA("BasePart") then
+                part.CanCollide = false
             end
         end
     end
 end)
 
--- Mensagem de sucesso
-warn("🔥 CRAZYE HUB CARREGADO COM SUCESSO!")
-warn("DELETE: Mostrar/Ocultar Interface")
-warn("Clique e arraste no topo para mover")
+-- Atualizar quando personagem muda
+LocalPlayer.CharacterAdded:Connect(function(char)
+    Character = char
+    HumanoidRootPart = char:WaitForChild("HumanoidRootPart")
+end)
 
-return "✅ CrazyE Hub v1.0 - GitHub Hosted"
+-- Mensagem de inicialização
+warn([[
+🔥 CRAZY HUB CARREGADO COM SUCESSO!
+📌 CONTROLES:
+• DELETE: Mostrar/Ocultar Interface
+• Arraste no topo para mover
+
+⚡ FUNÇÕES:
+• Aimbot
+• ESP
+• Noclip
+• Fly
+]])
+
+return "✅ Crazy Hub carregado com sucesso!"
