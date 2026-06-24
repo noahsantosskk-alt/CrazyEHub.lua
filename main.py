@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-MAIDZ CYBER TOOLKIT v2.0 (CORRIGIDO)
+MAIDZ CYBER TOOLKIT v2.0 (FINAL)
 Terminal personalizado + ferramentas de cybersegurança (estudo)
 Desenvolvido para Termux / Linux
 """
@@ -337,7 +337,7 @@ def dos_attack():
     input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
 
 # =============================================================
-# CONFIGURAÇÃO DO SHELL (corrigida - sem f-string com chaves)
+# CONFIGURAÇÃO DO SHELL
 # =============================================================
 def setup_shell():
     """Adiciona alias cyberfetch e modifica o prompt no bashrc/zshrc"""
@@ -399,4 +399,5 @@ def main():
         cyberfetch()
         sys.exit(0)
 
-    if not os.path.exists(os.path.expanduser("~/.maidz_setu
+    if not os.path.exists(os.path.expanduser("~/.maidz_setup_done")):
+        print(f"{Fore.YELLOW}[!
