@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-MAIDZ CYBER TOOLKIT v2.0 (FINAL)
+MAIDZ CYBER TOOLKIT v2.0 (FINAL - SEM ERROS)
 Terminal personalizado + ferramentas de cybersegurança (estudo)
 Desenvolvido para Termux / Linux
 """
@@ -16,18 +16,11 @@ import requests
 from datetime import datetime
 from colorama import init, Fore, Style
 
-# Inicializa colorama
 init(autoreset=True)
 
-# =============================================================
-# CONFIGURAÇÕES DO TERMINAL
-# =============================================================
 USER_NAME = "cruz"
 HOST_NAME = "localhost"
 
-# =============================================================
-# ASCII ART CYBERFETCH (com cores)
-# =============================================================
 CYBERFETCH_ART = f"""
 {Fore.LIGHTWHITE_EX}                       +                      
 {Fore.LIGHTWHITE_EX}                     +++                     
@@ -57,7 +50,6 @@ CYBERFETCH_ART = f"""
 """
 
 def cyberfetch():
-    """Exibe a arte cyberfetch com informações do grupo"""
     os.system('clear' if os.name == 'posix' else 'cls')
     print(CYBERFETCH_ART)
     print(f"{Fore.LIGHTMAGENTA_EX}════════════════════════════════════════════════════")
@@ -90,15 +82,15 @@ def dorking_menu():
     print(f"{Fore.LIGHTWHITE_EX}5. Voltar{Style.RESET_ALL}")
     opt = input(f"{Fore.LIGHTMAGENTA_EX}Escolha: {Style.RESET_ALL}")
     if opt == "1":
-        print(f"{Fore.CYAN}[*] Exemplo de Google Dork: site:example.com intitle:'index of' {Style.RESET_ALL}")
+        print(f"{Fore.CYAN}[*] Exemplo de Google Dork: site:example.com intitle:index of {Style.RESET_ALL}")
         print(f"{Fore.CYAN}[*] Lista completa: https://github.com/1d8/Google-Dorks{Style.RESET_ALL}")
     elif opt == "2":
-        print(f"{Fore.CYAN}[*] GitHub Dorks: extension:env 'DB_PASSWORD' {Style.RESET_ALL}")
+        print(f"{Fore.CYAN}[*] GitHub Dorks: extension:env DB_PASSWORD {Style.RESET_ALL}")
         print(f"{Fore.CYAN}[*] Buscar por credenciais expostas.{Style.RESET_ALL}")
     elif opt == "3":
-        print(f"{Fore.CYAN}[*] PDF Dork: filetype:pdf 'confidential' {Style.RESET_ALL}")
+        print(f"{Fore.CYAN}[*] PDF Dork: filetype:pdf confidential {Style.RESET_ALL}")
     elif opt == "4":
-        print(f"{Fore.CYAN}[*] SQL Dork: inurl:'id=' site:example.com {Style.RESET_ALL}")
+        print(f"{Fore.CYAN}[*] SQL Dork: inurl:id= site:example.com {Style.RESET_ALL}")
     else:
         return
     input(f"{Fore.LIGHTWHITE_EX}Pressione Enter para voltar...{Style.RESET_ALL}")
@@ -158,11 +150,11 @@ def osint_searcher():
     query = input(f"{Fore.LIGHTWHITE_EX}Termo a pesquisar (nome, email, etc.): {Style.RESET_ALL}")
     if not query:
         return
-    print(f"{Fore.CYAN}[*] Buscando informações sobre '{query}'...{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}[*] Buscando informações sobre {query}...{Style.RESET_ALL}")
     print(f"{Fore.YELLOW}[!] Usando serviços públicos (simulação).{Style.RESET_ALL}")
-    print(f"{Fore.CYAN}🔍 Google: https://www.google.com/search?q={query}{Style.RESET_ALL}")
-    print(f"{Fore.CYAN}🔍 LinkedIn: https://www.linkedin.com/search/results/all/?keywords={query}{Style.RESET_ALL}")
-    print(f"{Fore.CYAN}🔍 GitHub: https://github.com/search?q={query}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}Google: https://www.google.com/search?q={query}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}LinkedIn: https://www.linkedin.com/search/results/all/?keywords={query}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}GitHub: https://github.com/search?q={query}{Style.RESET_ALL}")
     input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
 
 def leaks_searcher():
@@ -171,7 +163,7 @@ def leaks_searcher():
     email = input(f"{Fore.LIGHTWHITE_EX}Email para verificar vazamentos: {Style.RESET_ALL}")
     if not email:
         return
-    print(f"{Fore.CYAN}[*] Verificando se '{email}' está em vazamentos...{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}[*] Verificando se {email} está em vazamentos...{Style.RESET_ALL}")
     try:
         r = requests.get(f"https://haveibeenpwned.com/api/v3/breachedaccount/{email}", timeout=10)
         if r.status_code == 200:
@@ -340,7 +332,6 @@ def dos_attack():
 # CONFIGURAÇÃO DO SHELL
 # =============================================================
 def setup_shell():
-    """Adiciona alias cyberfetch e modifica o prompt no bashrc/zshrc"""
     shell_rc = os.path.expanduser("~/.bashrc")
     if os.path.exists(os.path.expanduser("~/.zshrc")):
         shell_rc = os.path.expanduser("~/.zshrc")
@@ -400,4 +391,14 @@ def main():
         sys.exit(0)
 
     if not os.path.exists(os.path.expanduser("~/.maidz_setup_done")):
-        print(f"{Fore.YELLOW}[!
+        print(f"{Fore.YELLOW}[!] Primeira execução. Configurando shell...{Style.RESET_ALL}")
+        setup_shell()
+        with open(os.path.expanduser("~/.maidz_setup_done"), 'w') as f:
+            f.write("done")
+        print(f"{Fore.GREEN}[+] Configuração concluída. Execute source ~/.bashrc (ou ~/.zshrc) para ativar.{Style.RESET_ALL}")
+        input(f"{Fore.LIGHTWHITE_EX}Pressione Enter para continuar...{Style.RESET_ALL}")
+
+    while True:
+        opcao = main_menu()
+        if opcao == "1":
+           
