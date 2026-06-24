@@ -3,7 +3,7 @@
 """
 MAIDZ CYBER TOOLKIT v2.0 (CORRIGIDO)
 Terminal personalizado + ferramentas de cybersegurança (estudo)
-Desenvolvido para Termux / Linux
+Desenvolvido para Termux / Linu
 """
 
 import os
