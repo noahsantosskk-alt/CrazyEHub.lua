@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-MAIDZ CYBER TOOLKIT v2.0
+MAIDZ CYBER TOOLKIT v2.0 (CORRIGIDO)
 Terminal personalizado + ferramentas de cybersegurança (estudo)
 Desenvolvido para Termux / Linux
 """
@@ -10,13 +10,9 @@ import os
 import sys
 import time
 import socket
-import subprocess
-import threading
 import random
-import string
 import json
 import requests
-import shutil
 from datetime import datetime
 from colorama import init, Fore, Style
 
@@ -26,12 +22,11 @@ init(autoreset=True)
 # =============================================================
 # CONFIGURAÇÕES DO TERMINAL
 # =============================================================
-USER_NAME = "cruz"          # Altere para seu nome
-HOST_NAME = "localhost"     # Altere se quiser
-PROMPT_STYLE = f"{Fore.LIGHTWHITE_EX}╭──({Fore.LIGHTMAGENTA_EX}{USER_NAME}@{HOST_NAME}{Fore.LIGHTWHITE_EX})-(~)\n{Fore.LIGHTWHITE_EX}╰──❯❯ {Style.RESET_ALL}"
+USER_NAME = "cruz"
+HOST_NAME = "localhost"
 
 # =============================================================
-# ASCII ART CYBERFETCH
+# ASCII ART CYBERFETCH (com cores)
 # =============================================================
 CYBERFETCH_ART = f"""
 {Fore.LIGHTWHITE_EX}                       +                      
@@ -78,14 +73,13 @@ def cyberfetch():
     print(f"{Fore.LIGHTWHITE_EX}  Grupo: {Fore.LIGHTMAGENTA_EX}Maidz Cyber Team")
     print(f"{Fore.LIGHTMAGENTA_EX}════════════════════════════════════════════════════{Style.RESET_ALL}")
 
-# =============================================================
-# FUNÇÕES DAS FERRAMENTAS
-# =============================================================
-
 def clear():
     os.system('clear' if os.name == 'posix' else 'cls')
 
-# ---------- 1. DORKING (vários tipos) ----------
+# =============================================================
+# FERRAMENTAS
+# =============================================================
+
 def dorking_menu():
     clear()
     print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] DORKING TOOLS{Style.RESET_ALL}")
@@ -109,7 +103,6 @@ def dorking_menu():
         return
     input(f"{Fore.LIGHTWHITE_EX}Pressione Enter para voltar...{Style.RESET_ALL}")
 
-# ---------- 2. IP GRABBER (link falso) ----------
 def ip_grabber():
     clear()
     print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] IP GRABBER (gerador de link){Style.RESET_ALL}")
@@ -122,7 +115,6 @@ def ip_grabber():
     print(f"{Fore.CYAN}[*] Ao acessar, o IP será registrado (simulação).{Style.RESET_ALL}")
     input(f"{Fore.LIGHTWHITE_EX}Pressione Enter para voltar...{Style.RESET_ALL}")
 
-# ---------- 3. IP PINGER ----------
 def ip_pinger():
     clear()
     print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] IP PINGER{Style.RESET_ALL}")
@@ -134,7 +126,6 @@ def ip_pinger():
     print(f"{Fore.CYAN}[*] Pingando {target}...{Style.RESET_ALL}")
     os.system(f"ping -c 4 {target}")
 
-# ---------- 4. DISCORD ACCOUNT SHOWER ----------
 def discord_account_shower():
     clear()
     print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] DISCORD ACCOUNT SHOWER{Style.RESET_ALL}")
@@ -160,7 +151,6 @@ def discord_account_shower():
         print(f"{Fore.RED}[!] Erro: {e}{Style.RESET_ALL}")
     input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
 
-# ---------- 5. OSINT SEARCHER ----------
 def osint_searcher():
     clear()
     print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] OSINT SEARCHER{Style.RESET_ALL}")
@@ -174,7 +164,6 @@ def osint_searcher():
     print(f"{Fore.CYAN}🔍 GitHub: https://github.com/search?q={query}{Style.RESET_ALL}")
     input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
 
-# ---------- 6. LEAKS SEARCHER ----------
 def leaks_searcher():
     clear()
     print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] LEAKS SEARCHER{Style.RESET_ALL}")
@@ -197,7 +186,6 @@ def leaks_searcher():
         print(f"{Fore.RED}[!] Erro: {e}{Style.RESET_ALL}")
     input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
 
-# ---------- 7. DISCORD SPAMMER (via webhook) ----------
 def discord_spammer():
     clear()
     print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] DISCORD SPAMMER (webhook){Style.RESET_ALL}")
@@ -224,7 +212,6 @@ def discord_spammer():
             print(f"{Fore.RED}[!] Erro: {e}{Style.RESET_ALL}")
     input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
 
-# ---------- 8. DISCORD NUKER (via webhook) ----------
 def discord_nuker():
     clear()
     print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] DISCORD NUKER (webhook){Style.RESET_ALL}")
@@ -255,7 +242,6 @@ def discord_nuker():
         print(f"{Fore.RED}[!] Erro: {e}{Style.RESET_ALL}")
     input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
 
-# ---------- 9. DISCORD USERNAME CHECKER (via webhook) ----------
 def discord_username_checker():
     clear()
     print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] DISCORD USERNAME CHECKER{Style.RESET_ALL}")
@@ -278,7 +264,6 @@ def discord_username_checker():
         print(f"{Fore.RED}[!] Erro: {e}{Style.RESET_ALL}")
     input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
 
-# ---------- 10. DORKING TOOLS (ferramentas adicionais) ----------
 def dorking_tools():
     clear()
     print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] DORKING TOOLS - EXTRA{Style.RESET_ALL}")
@@ -302,7 +287,6 @@ def dorking_tools():
         print(f"{Fore.RED}[!] Opção inválida.{Style.RESET_ALL}")
     input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
 
-# ---------- 11. TIKTOK NAME SEARCHER ----------
 def tiktok_name_searcher():
     clear()
     print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] TIKTOK NAME SEARCHER{Style.RESET_ALL}")
@@ -323,7 +307,6 @@ def tiktok_name_searcher():
         print(f"{Fore.RED}[!] Erro: {e}{Style.RESET_ALL}")
     input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
 
-# ---------- 12. DOS ATTACK (simulação) ----------
 def dos_attack():
     clear()
     print(f"{Fore.LIGHTMAGENTA_EX}[MAIDZ] DOS ATTACK (simulação){Style.RESET_ALL}")
@@ -353,21 +336,22 @@ def dos_attack():
     input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
 
 # =============================================================
-# CONFIGURAÇÃO DO SHELL (PERSISTÊNCIA)
+# CONFIGURAÇÃO DO SHELL (corrigida - sem f-string com chaves)
 # =============================================================
 def setup_shell():
     """Adiciona alias cyberfetch e modifica o prompt no bashrc/zshrc"""
     shell_rc = os.path.expanduser("~/.bashrc")
     if os.path.exists(os.path.expanduser("~/.zshrc")):
         shell_rc = os.path.expanduser("~/.zshrc")
-    
-    # Linhas a adicionar (corrigidas sem f-string problemática)
+
+    # Linhas a adicionar (sem f-string problemática)
     lines_to_add = []
+    # Alias
     lines_to_add.append('alias cyberfetch="python3 ' + os.path.abspath(sys.argv[0]) + ' --cyberfetch"')
-    # Prompt personalizado usando concatenação para evitar erros de sintaxe
-    prompt_cmd = 'PS1="╭──(' + Fore.LIGHTMAGENTA_EX + USER_NAME + '@' + HOST_NAME + Fore.LIGHTWHITE_EX + ')-(~)\\n╰──❯❯ "'
+    # Prompt personalizado com códigos ANSI diretos (sem colorama no .bashrc)
+    prompt_cmd = 'PS1="\\[\\033[37m\\]╭──(\\[\\033[35m\\]' + USER_NAME + '@' + HOST_NAME + '\\[\\033[37m\\])-(~)\\n\\[\\033[37m\\]╰──❯❯ \\[\\033[0m\\]"'
     lines_to_add.append(prompt_cmd)
-    
+
     # Verifica se já está presente
     with open(shell_rc, 'r') as f:
         content = f.read()
@@ -400,4 +384,17 @@ def main_menu():
 {Fore.LIGHTWHITE_EX}  6.  {Fore.LIGHTMAGENTA_EX}Leaks Searcher{Fore.LIGHTWHITE_EX}
 {Fore.LIGHTWHITE_EX}  7.  {Fore.LIGHTMAGENTA_EX}Discord Spammer{Fore.LIGHTWHITE_EX} (webhook)
 {Fore.LIGHTWHITE_EX}  8.  {Fore.LIGHTMAGENTA_EX}Discord Nuker{Fore.LIGHTWHITE_EX} (webhook)
-{Fore.
+{Fore.LIGHTWHITE_EX}  9.  {Fore.LIGHTMAGENTA_EX}Discord Username Checker{Fore.LIGHTWHITE_EX}
+{Fore.LIGHTWHITE_EX}  10. {Fore.LIGHTMAGENTA_EX}Dorking Tools{Fore.LIGHTWHITE_EX} (SQLMap, Nmap, Nikto)
+{Fore.LIGHTWHITE_EX}  11. {Fore.LIGHTMAGENTA_EX}TikTok Name Searcher{Fore.LIGHTWHITE_EX}
+{Fore.LIGHTWHITE_EX}  12. {Fore.LIGHTMAGENTA_EX}DOS Attack{Fore.LIGHTWHITE_EX} (simulação)
+{Fore.LIGHTWHITE_EX}  13. {Fore.LIGHTMAGENTA_EX}Sair{Fore.LIGHTWHITE_EX}
+{Fore.LIGHTWHITE_EX}════════════════════════════════════════════════════
+    """)
+    return input(f"{Fore.LIGHTMAGENTA_EX}Escolha uma opção: {Style.RESET_ALL}").strip()
+
+# =============================================================
+# PONTO DE ENTRADA
+# =============================================================
+def main():
+    # Se executado com --cyberfetch, apenas mostra o fetch 
