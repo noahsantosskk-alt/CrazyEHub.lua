@@ -82,6 +82,9 @@ def cyberfetch():
 # FUNÇÕES DAS FERRAMENTAS
 # =============================================================
 
+def clear():
+    os.system('clear' if os.name == 'posix' else 'cls')
+
 # ---------- 1. DORKING (vários tipos) ----------
 def dorking_menu():
     clear()
@@ -166,7 +169,6 @@ def osint_searcher():
         return
     print(f"{Fore.CYAN}[*] Buscando informações sobre '{query}'...{Style.RESET_ALL}")
     print(f"{Fore.YELLOW}[!] Usando serviços públicos (simulação).{Style.RESET_ALL}")
-    # Simula busca em serviços conhecidos
     print(f"{Fore.CYAN}🔍 Google: https://www.google.com/search?q={query}{Style.RESET_ALL}")
     print(f"{Fore.CYAN}🔍 LinkedIn: https://www.linkedin.com/search/results/all/?keywords={query}{Style.RESET_ALL}")
     print(f"{Fore.CYAN}🔍 GitHub: https://github.com/search?q={query}{Style.RESET_ALL}")
@@ -181,7 +183,6 @@ def leaks_searcher():
         return
     print(f"{Fore.CYAN}[*] Verificando se '{email}' está em vazamentos...{Style.RESET_ALL}")
     try:
-        # Usa Have I Been Pwned API (pública)
         r = requests.get(f"https://haveibeenpwned.com/api/v3/breachedaccount/{email}", timeout=10)
         if r.status_code == 200:
             breaches = r.json()
@@ -237,7 +238,6 @@ def discord_nuker():
         return
     headers = {"Authorization": token}
     try:
-        # Lista canais
         r = requests.get(f"https://discord.com/api/v9/guilds/{guild_id}/channels", headers=headers)
         if r.status_code == 200:
             channels = r.json()
@@ -262,7 +262,7 @@ def discord_username_checker():
     username = input(f"{Fore.LIGHTWHITE_EX}Nome a verificar: {Style.RESET_ALL}")
     if not username:
         return
-    url = f"https://discord.com/api/v10/unique-username/username-attempt-unauthed"
+    url = "https://discord.com/api/v10/unique-username/username-attempt-unauthed"
     payload = {"username": username}
     try:
         r = requests.post(url, json=payload, timeout=10)
@@ -353,11 +353,38 @@ def dos_attack():
     input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
 
 # =============================================================
+# CONFIGURAÇÃO DO SHELL (PERSISTÊNCIA)
+# =============================================================
+def setup_shell():
+    """Adiciona alias cyberfetch e modifica o prompt no bashrc/zshrc"""
+    shell_rc = os.path.expanduser("~/.bashrc")
+    if os.path.exists(os.path.expanduser("~/.zshrc")):
+        shell_rc = os.path.expanduser("~/.zshrc")
+    
+    # Linhas a adicionar (corrigidas sem f-string problemática)
+    lines_to_add = []
+    lines_to_add.append('alias cyberfetch="python3 ' + os.path.abspath(sys.argv[0]) + ' --cyberfetch"')
+    # Prompt personalizado usando concatenação para evitar erros de sintaxe
+    prompt_cmd = 'PS1="╭──(' + Fore.LIGHTMAGENTA_EX + USER_NAME + '@' + HOST_NAME + Fore.LIGHTWHITE_EX + ')-(~)\\n╰──❯❯ "'
+    lines_to_add.append(prompt_cmd)
+    
+    # Verifica se já está presente
+    with open(shell_rc, 'r') as f:
+        content = f.read()
+    already = all(line in content for line in lines_to_add)
+    if not already:
+        with open(shell_rc, 'a') as f:
+            f.write("\n# MAIDZ CYBER TOOLKIT CONFIG\n")
+            for line in lines_to_add:
+                f.write(line + "\n")
+        print(f"{Fore.GREEN}[+] Configurações adicionadas ao {shell_rc}{Style.RESET_ALL}")
+        print(f"{Fore.YELLOW}[*] Recarregue com: source {shell_rc}{Style.RESET_ALL}")
+    else:
+        print(f"{Fore.CYAN}[*] Configurações já presentes.{Style.RESET_ALL}")
+
+# =============================================================
 # MENU PRINCIPAL
 # =============================================================
-def clear():
-    os.system('clear' if os.name == 'posix' else 'cls')
-
 def main_menu():
     clear()
     cyberfetch()
@@ -373,28 +400,4 @@ def main_menu():
 {Fore.LIGHTWHITE_EX}  6.  {Fore.LIGHTMAGENTA_EX}Leaks Searcher{Fore.LIGHTWHITE_EX}
 {Fore.LIGHTWHITE_EX}  7.  {Fore.LIGHTMAGENTA_EX}Discord Spammer{Fore.LIGHTWHITE_EX} (webhook)
 {Fore.LIGHTWHITE_EX}  8.  {Fore.LIGHTMAGENTA_EX}Discord Nuker{Fore.LIGHTWHITE_EX} (webhook)
-{Fore.LIGHTWHITE_EX}  9.  {Fore.LIGHTMAGENTA_EX}Discord Username Checker{Fore.LIGHTWHITE_EX}
-{Fore.LIGHTWHITE_EX}  10. {Fore.LIGHTMAGENTA_EX}Dorking Tools{Fore.LIGHTWHITE_EX} (SQLMap, Nmap, Nikto)
-{Fore.LIGHTWHITE_EX}  11. {Fore.LIGHTMAGENTA_EX}TikTok Name Searcher{Fore.LIGHTWHITE_EX}
-{Fore.LIGHTWHITE_EX}  12. {Fore.LIGHTMAGENTA_EX}DOS Attack{Fore.LIGHTWHITE_EX} (simulação)
-{Fore.LIGHTWHITE_EX}  13. {Fore.LIGHTMAGENTA_EX}Sair{Fore.LIGHTWHITE_EX}
-{Fore.LIGHTWHITE_EX}════════════════════════════════════════════════════
-    """)
-    return input(f"{Fore.LIGHTMAGENTA_EX}Escolha uma opção: {Style.RESET_ALL}").strip()
-
-# =============================================================
-# CONFIGURAÇÃO DO SHELL (PERSISTÊNCIA)
-# =============================================================
-def setup_shell():
-    """Adiciona alias cyberfetch e modifica o prompt no bashrc/zshrc"""
-    shell_rc = os.path.expanduser("~/.bashrc")
-    if os.path.exists(os.path.expanduser("~/.zshrc")):
-        shell_rc = os.path.expanduser("~/.zshrc")
-    
-    # Linhas a adicionar
-    lines_to_add = []
-    # Alias cyberfetch
-    script_path = os.path.abspath(sys.argv[0])
-    lines_to_add.append(f'alias cyberfetch="python3 {script_path} --cyberfetch"')
-    # Prompt personalizado
-    lines_to_add.append(f'PS1="╭──({Fore.LIGHTMAGENTA_EX}{USER_NAME}@{HOST_NAME}{Fore.LIGH
+{Fore.
