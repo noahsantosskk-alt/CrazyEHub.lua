@@ -3,7 +3,7 @@
 """
 MAIDZ CYBER TOOLKIT v2.0 (CORRIGIDO)
 Terminal personalizado + ferramentas de cybersegurança (estudo)
-Desenvolvido para Termux / Linu
+Desenvolvido para Termux / Linux
 """
 
 import os
@@ -125,6 +125,7 @@ def ip_pinger():
         return
     print(f"{Fore.CYAN}[*] Pingando {target}...{Style.RESET_ALL}")
     os.system(f"ping -c 4 {target}")
+    input(f"{Fore.LIGHTWHITE_EX}Enter...{Style.RESET_ALL}")
 
 def discord_account_shower():
     clear()
@@ -344,15 +345,11 @@ def setup_shell():
     if os.path.exists(os.path.expanduser("~/.zshrc")):
         shell_rc = os.path.expanduser("~/.zshrc")
 
-    # Linhas a adicionar (sem f-string problemática)
     lines_to_add = []
-    # Alias
     lines_to_add.append('alias cyberfetch="python3 ' + os.path.abspath(sys.argv[0]) + ' --cyberfetch"')
-    # Prompt personalizado com códigos ANSI diretos (sem colorama no .bashrc)
     prompt_cmd = 'PS1="\\[\\033[37m\\]╭──(\\[\\033[35m\\]' + USER_NAME + '@' + HOST_NAME + '\\[\\033[37m\\])-(~)\\n\\[\\033[37m\\]╰──❯❯ \\[\\033[0m\\]"'
     lines_to_add.append(prompt_cmd)
 
-    # Verifica se já está presente
     with open(shell_rc, 'r') as f:
         content = f.read()
     already = all(line in content for line in lines_to_add)
@@ -397,4 +394,9 @@ def main_menu():
 # PONTO DE ENTRADA
 # =============================================================
 def main():
-    # Se executado com --cyberfetch, apenas mostra o fetch 
+    if len(sys.argv) > 1 and sys.argv[1] == "--cyberfetch":
+        clear()
+        cyberfetch()
+        sys.exit(0)
+
+    if not os.path.exists(os.path.expanduser("~/.maidz_setu
