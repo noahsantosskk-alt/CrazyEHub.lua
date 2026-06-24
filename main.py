@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-MAIDZ CYBER TOOLKIT v2.0 (FINAL - SEM ERROS)
+MAIDZ CYBER TOOLKIT v2.0
 Terminal personalizado + ferramentas de cybersegurança (estudo)
 Desenvolvido para Termux / Linux
 """
@@ -401,4 +401,5 @@ def main():
     while True:
         opcao = main_menu()
         if opcao == "1":
-          
+            dorking_menu()
+    
